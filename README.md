@@ -255,4 +255,3 @@ ALERT_RECIPIENTS = ["admin@company.com"]
 
 This project is for educational and research purposes.
 Built with ❤️ using Python, Scapy, scikit-learn, Flask, and Chart.js.
-# SoftComputing_Project
