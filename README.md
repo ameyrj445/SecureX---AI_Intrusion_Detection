@@ -21,7 +21,7 @@ pip install -r requirements.txt
 # Using synthetic data (no dataset needed — great for testing):
 python ml/train.py --synthetic
 
-# Using CICIDS2017 dataset (best accuracy):
+# Using CICIDS2017 dataset (best accuracy): 
 # 1. Download the datasets and trained models from the GitHub Releases page
 # 2. Place the extracted CSV files in the data/ folder and .pkl files in ml/models/
 # 3. Run:
@@ -37,7 +37,7 @@ python main.py
 python main.py --demo
 
 # Custom port:
-python main.py --port 8080
+python main.py --port 5010
 
 # Disable auto-blocking (detection only):
 python main.py --no-block
