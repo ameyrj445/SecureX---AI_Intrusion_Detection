@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecureX AI — Intrusion Detection & Prevention System</title>
+  <meta name="description" content="Real-time AI-powered Network Intrusion Detection and Prevention System with live threat monitoring, attack visualization, and automatic IP blocking." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <!-- ─── Animated Background ─── -->
+  <div class="bg-grid"></div>
+  <div class="particles" id="particles"></div>
+
+  <!-- ─── Sidebar ─── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4L36 12V24C36 32 28 38 20 40C12 38 4 32 4 24V12L20 4Z" fill="url(#shieldGrad)" />
+          <path d="M14 20L18 24L26 16" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="shieldGrad" x1="4" y1="4" x2="36" y2="40" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#f2f2f2"/>
+              <stop offset="1" stop-color="#666666"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="logo-text">SecureX AI</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-tab="dashboard" onclick="switchTab('dashboard',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a href="#" class="nav-item" data-tab="alerts" onclick="switchTab('alerts',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        Live Alerts
+        <span class="badge" id="alert-count">0</span>
+      </a>
+      <a href="#" class="nav-item" data-tab="blocked" onclick="switchTab('blocked',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+        Blocked IPs
+        <span class="badge danger" id="blocked-count">0</span>
+      </a>
+      <a href="#" class="nav-item" data-tab="traffic" onclick="switchTab('traffic',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Traffic Analysis
+      </a>
+      <a href="#" class="nav-item" data-tab="map" onclick="switchTab('map',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.4 13.5 8 14 .6-.5 8-8.6 8-14a8 8 0 0 0-8-8z"/></svg>
+        Threat Map
+      </a>
+      <a href="#" class="nav-item" data-tab="replay" onclick="switchTab('replay',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Dataset Replay
+        <span class="badge replay-badge" id="replay-badge" style="background:#4a4a4a;display:none">LIVE</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-status">
+      <div class="status-dot" id="connection-dot"></div>
+      <span id="connection-label">Connecting...</span>
+      <div class="uptime-info">Uptime: <span id="uptime-val">--</span></div>
+    </div>
+  </aside>
+
+  <!-- ─── Main Content ─── -->
+  <main class="main-content">
+
+    <!-- ── Top Bar ── -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title" id="page-heading">System Dashboard</h1>
+        <div class="scan-pulse" id="scan-indicator">
+          <span class="pulse-dot"></span>
+          <span>MONITORING</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="threat-level-badge" id="threat-level-badge">
+          <span>THREAT LEVEL</span>
+          <span id="current-threat-level">LOW</span>
+        </div>
+        <div class="topbar-time" id="clock"></div>
+      </div>
+    </header>
+
+    <!-- ══════════════════ TAB: DASHBOARD ══════════════════ -->
+    <section class="tab-section" id="tab-dashboard">
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card" id="kpi-packets">
+          <div class="kpi-icon teal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73L13 2.27a2 2 0 0 0-2 0L4 6.27A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          </div>
+          <div class="kpi-data">
+            <div class="kpi-value" id="kpi-total-packets">0</div>
+            <div class="kpi-label">Total Packets Captured</div>
+          </div>
+          <div class="kpi-trend up" id="kpi-pkt-trend">↑</div>
+        </div>
+
+        <div class="kpi-card" id="kpi-alerts-card">
+          <div class="kpi-icon orange">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <div class="kpi-data">
+            <div class="kpi-value" id="kpi-alerts">0</div>
+            <div class="kpi-label">Alerts Today</div>
+          </div>
+          <div class="kpi-sparkline" id="sparkline-alerts"></div>
+        </div>
+
+        <div class="kpi-card" id="kpi-blocked-card">
+          <div class="kpi-icon red">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+          </div>
+          <div class="kpi-data">
+            <div class="kpi-value" id="kpi-blocked">0</div>
+            <div class="kpi-label">IPs Blocked</div>
+          </div>
+        </div>
+
+        <div class="kpi-card" id="kpi-ips-card">
+          <div class="kpi-icon purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          </div>
+          <div class="kpi-data">
+            <div class="kpi-value" id="kpi-active-ips">0</div>
+            <div class="kpi-label">Active Source IPs</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="charts-row">
+        <!-- Traffic Volume Chart -->
+        <div class="chart-card wide">
+          <div class="chart-header">
+            <h3>Network Traffic Volume</h3>
+            <div class="chart-legend">
+              <span class="leg-dot teal"></span>Packets/min
+              <span class="leg-dot red"></span>Alerts
+            </div>
+          </div>
+          <canvas id="trafficChart" height="160"></canvas>
+        </div>
+
+        <!-- Protocol Distribution -->
+        <div class="chart-card">
+          <div class="chart-header"><h3>Protocol Distribution</h3></div>
+          <canvas id="protocolChart" height="220"></canvas>
+        </div>
+      </div>
+
+      <!-- Attack Types + Recent Alerts Row -->
+      <div class="charts-row">
+        <!-- Attack type donut -->
+        <div class="chart-card">
+          <div class="chart-header"><h3>Attack Types Detected</h3></div>
+          <canvas id="attackChart" height="220"></canvas>
+        </div>
+
+        <!-- Recent alerts mini-list -->
+        <div class="chart-card wide">
+          <div class="chart-header">
+            <h3>Recent Alerts</h3>
+            <button class="btn-text" onclick="switchTab('alerts', document.querySelector('[data-tab=alerts]'))">View All →</button>
+          </div>
+          <div class="mini-alert-list" id="mini-alert-list">
+            <div class="empty-state-mini">No alerts yet — system is monitoring...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card wide popup-panel">
+          <div class="chart-header">
+            <h3>Popup Notifications</h3>
+            <button class="btn-text" type="button" onclick="clearPopupFeed()">Clear</button>
+          </div>
+          <div class="popup-feed-list" id="popup-feed-list">
+            <div class="empty-state-mini">Popup notifications will appear here as new alerts arrive.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ TAB: LIVE ALERTS ══════════════════ -->
+    <section class="tab-section hidden" id="tab-alerts">
+      <div class="section-header">
+        <h2>Live Intrusion Alerts</h2>
+        <div class="section-actions">
+          <input type="text" id="alert-search" placeholder="Filter by IP or attack type..." class="search-input" oninput="filterAlerts()" />
+          <select id="severity-filter" class="filter-select" onchange="filterAlerts()">
+            <option value="">All Severities</option>
+            <option value="CRITICAL">Critical</option>
+            <option value="HIGH">High</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="LOW">Low</option>
+          </select>
+        </div>
+      </div>
+      <div class="alerts-table-wrapper">
+        <table class="data-table" id="alerts-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Source IP</th>
+              <th>Attack Type</th>
+              <th>Severity</th>
+              <th>Threat Score</th>
+              <th>Confidence</th>
+              <th>Location</th>
+              <th>Source</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="alerts-tbody">
+            <tr><td colspan="9" class="empty-cell">Waiting for alerts...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ══════════════════ TAB: BLOCKED IPs ══════════════════ -->
+    <section class="tab-section hidden" id="tab-blocked">
+      <div class="section-header">
+        <h2>Blocked IP Addresses</h2>
+        <div class="section-actions">
+          <button class="btn-primary" onclick="refreshBlocked()">↻ Refresh</button>
+        </div>
+      </div>
+      <div class="blocked-table-wrapper">
+        <table class="data-table" id="blocked-table">
+          <thead>
+            <tr>
+              <th>IP Address</th>
+              <th>Blocked At</th>
+              <th>Auto-Unblock At</th>
+              <th>Reason</th>
+              <th>Country</th>
+              <th>City</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="blocked-tbody">
+            <tr><td colspan="7" class="empty-cell">No IPs currently blocked.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ══════════════════ TAB: TRAFFIC ANALYSIS ══════════════════ -->
+    <section class="tab-section hidden" id="tab-traffic">
+      <div class="section-header"><h2>Traffic Analysis</h2></div>
+      <div class="charts-row">
+        <div class="chart-card wide">
+          <div class="chart-header"><h3>Packet Rate Over Time</h3></div>
+          <canvas id="pktRateChart" height="200"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header"><h3>Alert Heatmap by Hour</h3></div>
+          <canvas id="heatmapChart" height="200"></canvas>
+        </div>
+      </div>
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-header"><h3>Top Attacking IPs</h3></div>
+          <canvas id="topIpChart" height="220"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header"><h3>Attack Severity Distribution</h3></div>
+          <canvas id="severityChart" height="220"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ TAB: THREAT MAP ══════════════════ -->
+    <section class="tab-section hidden" id="tab-map">
+      <div class="section-header"><h2>Global Threat Map</h2></div>
+      <div class="threat-map-container">
+        <div class="map-placeholder">
+          <svg class="map-svg" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="mapGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#d4d4d4" stop-opacity="0.22"/>
+                <stop offset="100%" stop-color="transparent"/>
+              </radialGradient>
+            </defs>
+            <rect width="1000" height="500" fill="#080808"/>
+            <!-- World map outline paths (simplified) -->
+            <g id="map-continents" fill="#1a1a1a" stroke="#b8b8b8" stroke-width="0.5" opacity="0.8">
+              <!-- North America -->
+              <path d="M120 80 L260 60 L310 90 L290 150 L260 180 L210 200 L170 220 L130 200 L100 160 L90 120Z"/>
+              <!-- South America -->
+              <path d="M200 230 L260 220 L280 270 L270 340 L230 380 L190 360 L180 300 L185 260Z"/>
+              <!-- Europe -->
+              <path d="M430 70 L510 65 L530 90 L520 130 L490 150 L440 140 L420 110 L415 85Z"/>
+              <!-- Africa -->
+              <path d="M440 160 L510 150 L540 180 L550 260 L520 340 L480 360 L440 340 L420 260 L425 190Z"/>
+              <!-- Asia -->
+              <path d="M540 60 L760 50 L800 100 L820 160 L780 200 L720 210 L660 190 L600 200 L560 170 L530 130 L535 85Z"/>
+              <!-- Australia -->
+              <path d="M720 280 L820 270 L840 310 L820 360 L760 370 L710 340 L700 300Z"/>
+            </g>
+            <!-- Attack lines will be dynamically added -->
+            <g id="attack-lines"></g>
+            <!-- Attack dots -->
+            <g id="attack-dots"></g>
+          </svg>
+          <div class="map-legend">
+            <div><span class="legend-dot critical"></span> Critical Attack</div>
+            <div><span class="legend-dot high"></span> High Severity</div>
+            <div><span class="legend-dot medium"></span> Medium Severity</div>
+          </div>
+        </div>
+        <!-- Threat origin table -->
+        <div class="threat-origins">
+          <h3>Attack Origins</h3>
+          <div id="origin-list" class="origin-list">
+            <div class="empty-state-mini">No geo data available yet</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════ TAB: DATASET REPLAY ════════════════════ -->
+    <section class="tab-section hidden" id="tab-replay">
+      <div class="section-header">
+        <h2>Dataset Replay Mode</h2>
+        <div class="replay-status-pill" id="replay-status-pill">IDLE</div>
+      </div>
+
+      <!-- Info Banner -->
+      <div class="replay-info-banner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Streams <strong>2.83 million rows</strong> from CICIDS2017 through the trained AI models in real time.
+        Detections appear live in the Alerts tab. Perfect for demos &amp; testing.
+      </div>
+
+      <!-- Controls Card -->
+      <div class="replay-controls-card">
+        <div class="replay-controls-row">
+          <!-- Play / Pause / Stop -->
+          <button class="replay-btn play" id="btn-replay-play" onclick="replayStart()" title="Start Replay">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Start
+          </button>
+          <button class="replay-btn pause" id="btn-replay-pause" onclick="replayPause()" disabled title="Pause">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            Pause
+          </button>
+          <button class="replay-btn stop" id="btn-replay-stop" onclick="replayStop()" disabled title="Stop">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+            Stop
+          </button>
+        </div>
+
+        <!-- Options Row -->
+        <div class="replay-options-row">
+          <!-- Speed Slider -->
+          <div class="replay-option-group">
+            <label>Speed: <span id="speed-label">1x</span></label>
+            <input type="range" id="speed-slider" min="1" max="20" value="1" step="1"
+              oninput="updateSpeedLabel(this.value)" onchange="replaySetSpeed(this.value)"
+              class="speed-slider" />
+            <div class="speed-hints"><span>Slow</span><span>Fast</span></div>
+          </div>
+
+          <!-- Attacks Only Toggle -->
+          <div class="replay-option-group toggle-group">
+            <label class="toggle-label">
+              <input type="checkbox" id="attacks-only-toggle" checked />
+              <span class="toggle-switch"></span>
+              Attacks Only
+            </label>
+            <small>Skip BENIGN rows for faster attack demo</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div class="replay-progress-card">
+        <div class="replay-progress-header">
+          <span id="replay-current-file">No file loaded</span>
+          <span id="replay-pct">0%</span>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="replay-progress-bar" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Live Stats Grid -->
+      <div class="replay-stats-grid">
+        <div class="replay-stat-card">
+          <div class="replay-stat-value" id="rstat-processed">0</div>
+          <div class="replay-stat-label">Rows Processed</div>
+        </div>
+        <div class="replay-stat-card danger">
+          <div class="replay-stat-value" id="rstat-attacks">0</div>
+          <div class="replay-stat-label">Attacks Detected</div>
+        </div>
+        <div class="replay-stat-card success">
+          <div class="replay-stat-value" id="rstat-benign">0</div>
+          <div class="replay-stat-label">Benign Traffic</div>
+        </div>
+        <div class="replay-stat-card info">
+          <div class="replay-stat-value" id="rstat-speed">1x</div>
+          <div class="replay-stat-label">Current Speed</div>
+        </div>
+      </div>
+
+      <!-- Recent Replay Alerts -->
+      <div class="chart-card" style="margin-top:1.5rem">
+        <div class="chart-header">
+          <h3>Live Detections from Replay</h3>
+          <span class="replay-live-dot" id="replay-live-dot"></span>
+        </div>
+        <div class="mini-alert-list" id="replay-alert-list">
+          <div class="empty-state-mini">Start replay to see live detections here...</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── Alert Toast Notifications ─── -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ─── Alert Detail Modal ─── -->
+  <div class="modal-overlay hidden" id="alert-modal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <h2 id="modal-title">Alert Details</h2>
+      <div id="modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

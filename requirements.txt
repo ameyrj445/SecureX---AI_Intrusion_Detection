@@ -1,0 +1,27 @@
+# SecureX AI — Intrusion Detection & Prevention System
+# Requirements
+
+# ── Core Web Framework ────────────────────────────────────────────────────────
+flask>=3.0.0
+flask-socketio>=5.3.6
+python-socketio>=5.10.0
+python-engineio>=4.8.0
+eventlet>=0.35.0
+
+# ── Packet Capture ────────────────────────────────────────────────────────────
+scapy>=2.5.0
+
+# ── Machine Learning ──────────────────────────────────────────────────────────
+scikit-learn>=1.4.0
+numpy>=1.26.0
+pandas>=2.2.0
+
+# ── Networking / Geo ──────────────────────────────────────────────────────────
+requests>=2.31.0
+
+# ── Email Alerts ──────────────────────────────────────────────────────────────
+# Uses standard library smtplib — no extra package needed
+
+# ── Utilities ────────────────────────────────────────────────────────────────
+setuptools>=68.0.0
+wheel>=0.42.0

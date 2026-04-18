@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+logs/
+.venv/
+venv/
+.deps/
+.tmp/
+*.db
+data/
+*.pkl
