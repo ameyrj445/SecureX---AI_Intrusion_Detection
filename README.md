@@ -9,7 +9,7 @@
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Install Dependencies
 ```bash
@@ -50,30 +50,30 @@ http://localhost:5000
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 AI-Based Intrusion Detection+Auto Blocking System/
 │
-├── main.py                     # 🚀 System entry point
-├── config.py                   # ⚙️  All configuration settings
+├── main.py                     # System entry point
+├── config.py                   # All configuration settings
 ├── requirements.txt
 │
 ├── core/                       # Core detection modules
-│   ├── packet_capture.py       # 📡 Scapy live network capture
-│   ├── feature_engineering.py  # 🔧 Per-IP sliding-window features
-│   ├── rule_engine.py          # 📏 Rule-based detection (DDoS/portscan/etc)
-│   ├── ml_engine.py            # 🤖 ML-based anomaly detection
-│   ├── firewall.py             # 🛡️  Auto IP blocking (iptables/netsh)
-│   ├── logger.py               # 📝 SQLite + rotating file logs
-│   ├── geo_ip.py               # 🌍 IP geolocation
-│   ├── threat_score.py         # 📊 Composite threat scoring (0-100)
-│   └── alert_email.py          # 📧 SMTP email alerts
+│   ├── packet_capture.py       # Scapy live network capture
+│   ├── feature_engineering.py  # Per-IP sliding-window features
+│   ├── rule_engine.py          # Rule-based detection (DDoS/portscan/etc)
+│   ├── ml_engine.py            # ML-based anomaly detection
+│   ├── firewall.py             # Auto IP blocking (iptables/netsh)
+│   ├── logger.py               # SQLite + rotating file logs
+│   ├── geo_ip.py               # IP geolocation
+│   ├── threat_score.py         # Composite threat scoring (0-100)
+│   └── alert_email.py          # SMTP email alerts
 │
 ├── ml/                         # Machine learning pipeline
-│   ├── train.py                # 🎓 Model training script
-│   ├── preprocess.py           # 🔄 CICIDS2017 preprocessing
-│   ├── evaluate.py             # 📈 Standalone evaluation
+│   ├── train.py                # Model training script
+│   ├── preprocess.py           # CICIDS2017 preprocessing
+│   ├── evaluate.py             # Standalone evaluation
 │   └── models/                 # Saved .pkl model files
 │
 ├── dashboard/                  # Web dashboard
@@ -93,7 +93,7 @@ AI-Based Intrusion Detection+Auto Blocking System/
 
 ---
 
-## 🔍 Detection Capabilities
+## Detection Capabilities
 
 ### Rule-Based Detection
 | Attack Type | Method | Threshold |
@@ -120,7 +120,7 @@ score = (0.5 × rule_score) + (0.3 × ml_score) + (0.2 × geo_risk) × confidenc
 
 ---
 
-## ⚙️ Configuration (`config.py`)
+## Configuration (`config.py`)
 
 ```python
 # Detection thresholds
@@ -146,7 +146,7 @@ DASHBOARD_PORT = 5000
 
 ---
 
-## 📊 Dashboard Features
+## Dashboard Features
 
 | Tab | Features |
 |-----|----------|
@@ -158,7 +158,7 @@ DASHBOARD_PORT = 5000
 
 ---
 
-## 🎯 CICIDS2017 Training Results (Expected)
+## CICIDS2017 Training Results (Expected)
 
 | Metric | IsolationForest | RandomForest |
 |--------|----------------|--------------|
@@ -171,7 +171,7 @@ DASHBOARD_PORT = 5000
 
 ---
 
-## 🔧 Advanced Usage
+## Advanced Usage
 
 ### Simulate an Attack (for testing)
 ```bash
@@ -207,7 +207,7 @@ curl -X POST http://localhost:5000/api/unblock/10.0.0.5
 
 ---
 
-## 🛡️ OS-Specific Firewall Commands
+## OS-Specific Firewall Commands
 
 **Linux (iptables):**
 ```bash
@@ -227,7 +227,7 @@ netsh advfirewall firewall delete rule name="IDS_BLOCK_<IP>"
 
 ---
 
-## 📧 Email Alert Setup (Gmail)
+## Email Alert Setup (Gmail)
 
 1. Enable 2FA on your Google account
 2. Generate an **App Password**: Google Account → Security → App Passwords
@@ -241,7 +241,7 @@ ALERT_RECIPIENTS = ["admin@company.com"]
 
 ---
 
-## 📋 Requirements
+## Requirements
 
 - Python 3.10+
 - Windows / Linux / macOS
@@ -251,7 +251,7 @@ ALERT_RECIPIENTS = ["admin@company.com"]
 
 ---
 
-## 🤝 License
+## License
 
 This project is for educational and research purposes.
-Built with ❤️ using Python, Scapy, scikit-learn, Flask, and Chart.js.
+Built using Python, Scapy, scikit-learn, Flask, and Chart.js.
