@@ -2,7 +2,6 @@
 
 <div align="center">
 
-
 **Real-time AI-powered Network Intrusion Detection & Prevention**
 
 </div>

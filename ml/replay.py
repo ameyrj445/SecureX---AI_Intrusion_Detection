@@ -153,7 +153,7 @@ class DatasetReplayEngine:
         with self._lock:
             return dict(self.stats)
 
-    # ── Internal ──────────────────────────────────────────────────────────────
+    # ── Internal ──
 
     def _update_stats(self, **kwargs):
         with self._lock:
@@ -315,3 +315,4 @@ class DatasetReplayEngine:
         except Exception as e:
             log.error(f"[Replay] Score error: {e}")
             return None
+

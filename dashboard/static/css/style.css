@@ -161,6 +161,7 @@ body {
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px 24px;
   background: rgba(10,10,10,.92);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
@@ -533,6 +534,7 @@ body {
 .modal-overlay {
   position: fixed; inset: 0;
   background: rgba(0,0,0,.7);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   z-index: 200;
   display: flex; align-items: center; justify-content: center;
