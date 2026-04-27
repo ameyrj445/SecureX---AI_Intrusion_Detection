@@ -254,3 +254,4 @@ ALERT_RECIPIENTS = ["admin@company.com"]
 
 This project is for educational and research purposes.
 Built using Python, Scapy, scikit-learn, Flask, and Chart.js.
+
