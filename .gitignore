@@ -8,6 +8,5 @@ venv/
 *.db
 data/
 *.pkl
-
-C:\Users\Amey Raj Jain\Documents\PROJECTS\AI_Intrusion_Detection-main\AI_Intrusion_Detection-main\run.txt
-C:\Users\Amey Raj Jain\Documents\PROJECTS\AI_Intrusion_Detection-main\AI_Intrusion_Detection-main\PROJECT_REPORT.md
+run.txt
+PROJECT_REPORT.md
