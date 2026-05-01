@@ -1,3 +1,3 @@
-"c:\Users\Amey Raj Jain\Documents\PROJECTS\AI_Intrusion_Detection-main\AI_Intrusion_Detection-main\.venv\Scripts\activate"
+"AI_Intrusion_Detection-main\.venv\Scripts\activate"
 
 python main.py
