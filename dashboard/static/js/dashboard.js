@@ -1003,4 +1003,3 @@ async function pollReplayStatus() {
     applyReplayStats(data);
   } catch (e) { /* ignore */ }
 }
-
