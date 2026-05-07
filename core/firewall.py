@@ -11,7 +11,6 @@ Features:
   - Persistent blocklist tracking in the logger DB
   - Thread-safe operations
 """
-
 import sys
 import os
 import platform
