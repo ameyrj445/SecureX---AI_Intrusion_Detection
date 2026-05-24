@@ -8,6 +8,7 @@ Features:
   - Optional async sending (non-blocking)
 """
 
+
 import sys
 import os
 import smtplib

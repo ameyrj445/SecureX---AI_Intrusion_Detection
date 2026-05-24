@@ -182,4 +182,3 @@ class FeatureAggregator:
     def get_active_ip_count(self) -> int:
         with self._windows_lock:
             return len(self._windows)
-
