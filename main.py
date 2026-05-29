@@ -39,7 +39,7 @@ from core.ml_engine import MLEngine
 from core import geo_ip, threat_score, firewall
 from core.alert_email import send_alert_email_async
 
-# ─── Dashboard ────────────────────────────────────────────────────────────────
+# ─── Dashboard ────
 from dashboard.app import (
     push_alert,
     push_stats,
@@ -50,13 +50,13 @@ from dashboard.app import (
 log = get_logger("Main")
 
 
-# ─── Queues ───────────────────────────────────────────────────────────────────
+# ─── Queues ────
 alert_queue: queue.Queue = queue.Queue(maxsize=5000)
 # ML gets a mirrored feature queue
 ml_feature_queue: queue.Queue = queue.Queue(maxsize=5000)
 
 
-# ─── Alert Coordinator ────────────────────────────────────────────────────────
+# ─── Alert Coordinator ────
 
 def process_alert(alert: dict):
     """
@@ -145,8 +145,7 @@ def alert_consumer_loop():
         except Exception as e:
             log.error(f"[Main] Alert consumer error: {e}")
 
-
-# ─── Feature Mirror (for ML engine) ──────────────────────────────────────────
+# ─── Feature Mirror (for ML engine) ────
 
 def feature_mirror_loop():
     """
