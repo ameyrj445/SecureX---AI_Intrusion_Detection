@@ -7,6 +7,9 @@ Provides:
   - Management endpoints (manual unblock, clear alerts)
 """
 
+from core import firewall
+from core.logger import get_logger, get_recent_alerts, get_blocked_ips, get_traffic_stats
+import config
 import sys
 import os
 import json
@@ -14,9 +17,6 @@ import threading
 import time
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import config
-from core.logger import get_logger, get_recent_alerts, get_blocked_ips, get_traffic_stats
-from core import firewall
 
 # Replay engine (lazy import to avoid circular deps)
 _replay_engine = None
@@ -33,7 +33,8 @@ except ImportError as e:
     _flask_ok = False
 
 if not _flask_ok:
-    raise SystemExit("Please install Flask and flask-socketio: pip install flask flask-socketio")
+    raise SystemExit(
+        "Please install Flask and flask-socketio: pip install flask flask-socketio")
 
 # ─── App Setup ───────────────────────────────────────────────────────────────
 app = Flask(
@@ -136,7 +137,8 @@ def api_unblock(ip):
 
 @app.route("/api/block/<ip>", methods=["POST"])
 def api_block(ip):
-    reason = request.json.get("reason", "Manual block via dashboard") if request.is_json else "Manual block"
+    reason = request.json.get(
+        "reason", "Manual block via dashboard") if request.is_json else "Manual block"
     success = firewall.block_ip(ip, reason=reason, ttl=0)
     return jsonify({"success": success, "ip": ip})
 
@@ -194,7 +196,8 @@ def _stats_push_loop():
 
 def start_dashboard(host: str = config.DASHBOARD_HOST, port: int = config.DASHBOARD_PORT):
     # Start background stats push
-    t = threading.Thread(target=_stats_push_loop, daemon=True, name="StatsPush")
+    t = threading.Thread(target=_stats_push_loop,
+                         daemon=True, name="StatsPush")
     t.start()
 
     log.info(f"[Dashboard] Starting on http://{host}:{port}")
@@ -220,7 +223,8 @@ def _get_replay():
                 from ml.replay import DatasetReplayEngine
                 _replay_engine = DatasetReplayEngine(
                     on_alert=push_alert,
-                    on_stats=lambda s: socketio.emit("replay_stats", s, namespace="/"),
+                    on_stats=lambda s: socketio.emit(
+                        "replay_stats", s, namespace="/"),
                     data_dir=os.path.join(
                         os.path.dirname(os.path.dirname(__file__)),
                         "data", "MachineLearningCSV", "MachineLearningCVE"
@@ -234,8 +238,8 @@ def _get_replay():
 
 @app.route("/api/replay/start", methods=["POST"])
 def api_replay_start():
-    data   = request.get_json(silent=True) or {}
-    speed  = float(data.get("speed", 1.0))
+    data = request.get_json(silent=True) or {}
+    speed = float(data.get("speed", 1.0))
     attacks_only = bool(data.get("attacks_only", True))
     eng = _get_replay()
     if eng is None:
@@ -272,7 +276,7 @@ def api_replay_stop():
 
 @app.route("/api/replay/speed", methods=["POST"])
 def api_replay_speed():
-    data  = request.get_json(silent=True) or {}
+    data = request.get_json(silent=True) or {}
     speed = float(data.get("speed", 1.0))
     eng = _get_replay()
     if eng:
@@ -290,4 +294,3 @@ def api_replay_status():
 
 if __name__ == "__main__":
     start_dashboard()
-

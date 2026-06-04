@@ -9,13 +9,13 @@ Combines:
 Maps final score to severity level (LOW / MEDIUM / HIGH / CRITICAL).
 """
 
+from core import geo_ip
+from core.logger import get_logger
+import config
 import sys
 import os
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import config
-from core.logger import get_logger
-from core import geo_ip
 
 log = get_logger("ThreatScore")
 
