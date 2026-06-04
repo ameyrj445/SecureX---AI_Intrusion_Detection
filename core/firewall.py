@@ -221,4 +221,3 @@ def get_metrics() -> dict:
             "total_unblocked": _metrics["total_unblocked"],
             "currently_blocked": len(_blocklist),
         }
-
