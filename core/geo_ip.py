@@ -7,6 +7,8 @@ Features:
 - Private IP detection (skips lookup)
 """
 
+from core.logger import get_logger
+import config
 import sys
 import os
 import time
@@ -15,8 +17,6 @@ import ipaddress
 from functools import lru_cache
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import config
-from core.logger import get_logger
 
 log = get_logger("GeoIP")
 
@@ -27,7 +27,7 @@ except ImportError:
     _requests_available = False
     log.warning("[GeoIP] 'requests' not installed — geolocation disabled")
 
-# ─── Cache ───────────────────────────────────────────────────────────────────
+# ─── Cache ──────
 _cache: dict = {}          # ip -> {data, expires}
 _cache_lock = threading.Lock()
 
@@ -99,7 +99,8 @@ def lookup(ip: str) -> dict:
         }
         # Trim cache if too large
         if len(_cache) > 5000:
-            oldest = sorted(_cache.keys(), key=lambda k: _cache[k]["expires"])[:500]
+            oldest = sorted(
+                _cache.keys(), key=lambda k: _cache[k]["expires"])[:500]
             for key in oldest:
                 del _cache[key]
 

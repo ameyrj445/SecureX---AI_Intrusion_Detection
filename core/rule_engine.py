@@ -9,6 +9,8 @@ Evaluates feature vectors against configurable thresholds to detect:
  - UDP floods
 """
 
+from core.logger import get_logger
+import config
 import sys
 import os
 import queue
@@ -17,13 +19,11 @@ from datetime import datetime
 from typing import Callable
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import config
-from core.logger import get_logger
 
 log = get_logger("RuleEngine")
 
 
-# ─── Alert Schema ─────────────────────────────────────────────────────────────
+# ─── Alert Schema ──────
 
 def make_alert(
     src_ip: str,
@@ -45,7 +45,7 @@ def make_alert(
     }
 
 
-# ─── Individual Rules ─────────────────────────────────────────────────────────
+# ─── Individual Rules ───
 
 def _check_ddos(f: dict) -> dict | None:
     rate = f.get("request_rate_per_min", 0)
@@ -156,7 +156,7 @@ def _check_udp_flood(f: dict) -> dict | None:
     return None
 
 
-# ─── Rule Engine ──────────────────────────────────────────────────────────────
+# ─── Rule Engine ────
 
 RULES = [
     _check_ddos,

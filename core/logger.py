@@ -2,6 +2,7 @@
 core/logger.py — Centralized logging: SQLite alerts DB + rotating file log.
 """
 
+import config
 import logging
 import logging.handlers
 import sqlite3
@@ -13,12 +14,12 @@ from datetime import datetime
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import config
 
 
 _lock = threading.Lock()
 
-# ─── Python Logger Setup ─────────────────────────────────────────────────────
+# ─── Python Logger Setup ─────
+
 
 def get_logger(name: str = "IDS") -> logging.Logger:
     """Return a named logger with file + console handlers."""
@@ -51,7 +52,7 @@ def get_logger(name: str = "IDS") -> logging.Logger:
     return logger
 
 
-# ─── SQLite Database ─────────────────────────────────────────────────────────
+# ─── SQLite Database ─────
 
 def init_db():
     """Create DB tables if they don't exist."""
