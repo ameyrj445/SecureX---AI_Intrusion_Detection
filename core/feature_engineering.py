@@ -5,6 +5,8 @@ Consumes raw packet records from packet_queue and produces feature vectors
 suitable for both rule-based and ML-based detection.
 """
 
+from core.logger import get_logger
+import config
 import sys
 import os
 import threading
@@ -14,8 +16,6 @@ from collections import defaultdict, deque
 from typing import Generator
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import config
-from core.logger import get_logger
 
 log = get_logger("FeatureEng")
 
@@ -49,7 +49,8 @@ class IPTrafficWindow:
         now = time.time()
         window_secs = max(
             1,
-            now - records[0]["timestamp"] if records else config.WINDOW_SIZE_SECONDS
+            now -
+            records[0]["timestamp"] if records else config.WINDOW_SIZE_SECONDS
         )
 
         total_pkts = len(records)
@@ -58,7 +59,8 @@ class IPTrafficWindow:
         unique_dst_ips = set(r["dst_ip"] for r in records)
 
         size_mean = sum(sizes) / total_pkts
-        size_var = sum((s - size_mean) ** 2 for s in sizes) / total_pkts if total_pkts > 1 else 0
+        size_var = sum((s - size_mean) ** 2 for s in sizes) / \
+            total_pkts if total_pkts > 1 else 0
 
         protocols = [r["protocol"] for r in records]
         syn_count = sum(1 for r in records if r.get("flags", 0) & 0x02)
@@ -125,13 +127,16 @@ class FeatureAggregator:
     def start(self):
         self._running = True
         # Ingestion thread
-        t1 = threading.Thread(target=self._ingest_loop, daemon=True, name="FE-Ingest")
+        t1 = threading.Thread(target=self._ingest_loop,
+                              daemon=True, name="FE-Ingest")
         # Emission thread
-        t2 = threading.Thread(target=self._emit_loop, daemon=True, name="FE-Emit")
+        t2 = threading.Thread(target=self._emit_loop,
+                              daemon=True, name="FE-Emit")
         self._threads = [t1, t2]
         for t in self._threads:
             t.start()
-        log.info(f"[FeatureAggregator] Started (window={self.window_seconds}s, emit_interval={self.emit_interval}s)")
+        log.info(
+            f"[FeatureAggregator] Started (window={self.window_seconds}s, emit_interval={self.emit_interval}s)")
 
     def stop(self):
         self._running = False

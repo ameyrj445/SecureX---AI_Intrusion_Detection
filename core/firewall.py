@@ -11,6 +11,8 @@ Features:
   - Persistent blocklist tracking in the logger DB
   - Thread-safe operations
 """
+from core.logger import get_logger, log_blocked_ip, unlog_blocked_ip
+import config
 import sys
 import os
 import platform
@@ -20,8 +22,6 @@ import time
 from datetime import datetime, timedelta
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import config
-from core.logger import get_logger, log_blocked_ip, unlog_blocked_ip
 
 log = get_logger("Firewall")
 
@@ -35,7 +35,7 @@ _blocklist_lock = threading.Lock()
 _metrics = {"total_blocked": 0, "total_unblocked": 0}
 
 
-# ─── OS-level commands ───────────────────────────────────────────────────────
+# ─── OS-level commands ───
 
 def _run_cmd(cmd: list[str]) -> tuple[bool, str]:
     """Run a shell command. Returns (success, output)."""
@@ -44,11 +44,13 @@ def _run_cmd(cmd: list[str]) -> tuple[bool, str]:
             cmd, capture_output=True, text=True, timeout=10
         )
         if result.returncode != 0:
-            log.warning(f"[Firewall] Command failed: {' '.join(cmd)}\n{result.stderr}")
+            log.warning(
+                f"[Firewall] Command failed: {' '.join(cmd)}\n{result.stderr}")
             return False, result.stderr
         return True, result.stdout
     except FileNotFoundError:
-        log.warning(f"[Firewall] Command not found: {cmd[0]} — simulating block")
+        log.warning(
+            f"[Firewall] Command not found: {cmd[0]} — simulating block")
         return True, "(simulated)"
     except Exception as e:
         log.error(f"[Firewall] Command error: {e}")
@@ -96,7 +98,8 @@ def _block_os(ip: str) -> bool:
     elif _OS == "Windows":
         return _block_windows(ip)
     else:
-        log.info(f"[Firewall] Simulating block for {ip} (unsupported OS: {_OS})")
+        log.info(
+            f"[Firewall] Simulating block for {ip} (unsupported OS: {_OS})")
         return True
 
 
@@ -110,7 +113,7 @@ def _unblock_os(ip: str) -> bool:
         return True
 
 
-# ─── Public API ──────────────────────────────────────────────────────────────
+# ─── Public API ───
 
 def block_ip(
     ip: str,
@@ -143,7 +146,8 @@ def block_ip(
         return False
 
     now = datetime.utcnow()
-    unblock_at = (now + timedelta(seconds=ttl)).isoformat() if ttl > 0 else None
+    unblock_at = (now + timedelta(seconds=ttl)
+                  ).isoformat() if ttl > 0 else None
 
     # Set up auto-unblock timer
     timer = None
