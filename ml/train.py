@@ -12,6 +12,9 @@ Usage:
   python ml/train.py --evaluate         # Run evaluation report after training
 """
 
+from ml.preprocess import load_cicids2017, preprocess, generate_synthetic_data
+from core.logger import get_logger
+import config
 import sys
 import os
 import argparse
@@ -22,9 +25,6 @@ import warnings
 warnings.filterwarnings("ignore")
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import config
-from core.logger import get_logger
-from ml.preprocess import load_cicids2017, preprocess, generate_synthetic_data
 
 log = get_logger("Train")
 
@@ -38,7 +38,8 @@ def save_model(obj, path: str, name: str):
 
 def train_isolation_forest(X_train, contamination: float = config.ML_CONTAMINATION):
     from sklearn.ensemble import IsolationForest
-    log.info(f"[Train] Training IsolationForest (n_estimators={config.ML_N_ESTIMATORS}, contamination={contamination})...")
+    log.info(
+        f"[Train] Training IsolationForest (n_estimators={config.ML_N_ESTIMATORS}, contamination={contamination})...")
     t0 = time.time()
     model = IsolationForest(
         n_estimators=config.ML_N_ESTIMATORS,
@@ -106,8 +107,8 @@ def evaluate(iso_model, rf_model, X_test, y_test, feature_names):
         rf_preds = rf_model.predict(X_test)
         # Only include labels that appear in test set
         present_labels = sorted(np.unique(np.concatenate([y_test, rf_preds])))
-        ALL_NAMES = {0:"BENIGN",1:"DDoS",2:"PortScan",3:"BruteForce",
-                     4:"WebAtk",5:"Bot",6:"Infiltration",7:"DoS",8:"Heartbleed"}
+        ALL_NAMES = {0: "BENIGN", 1: "DDoS", 2: "PortScan", 3: "BruteForce",
+                     4: "WebAtk", 5: "Bot", 6: "Infiltration", 7: "DoS", 8: "Heartbleed"}
         label_tnames = [ALL_NAMES.get(l, f"Class{l}") for l in present_labels]
         print(classification_report(
             y_test, rf_preds,
@@ -123,7 +124,8 @@ def evaluate(iso_model, rf_model, X_test, y_test, feature_names):
         top_idx = importances.argsort()[::-1][:10]
         print("\n  Top 10 Important Features:")
         for i, idx in enumerate(top_idx):
-            print(f"    {i+1:2d}. {feature_names[idx]:<40s} {importances[idx]:.4f}")
+            print(
+                f"    {i+1:2d}. {feature_names[idx]:<40s} {importances[idx]:.4f}")
 
     print("="*70 + "\n")
 
@@ -133,7 +135,8 @@ def main():
     parser.add_argument("--synthetic", action="store_true",
                         help="Use synthetic data (no dataset files needed)")
     parser.add_argument("--data", default=None, help="Path to data directory")
-    parser.add_argument("--evaluate", action="store_true", help="Run evaluation after training")
+    parser.add_argument("--evaluate", action="store_true",
+                        help="Run evaluation after training")
     parser.add_argument("--contamination", type=float, default=config.ML_CONTAMINATION,
                         help="IsolationForest contamination ratio (default: 0.05)")
     args = parser.parse_args()
@@ -142,24 +145,25 @@ def main():
     log.info("  AI-Based IDS/IPS — Model Training")
     log.info("=" * 60)
 
-    # ── Load Data ─────────────────────────────────────────────────────────────
+    # ── Load Data ───
     if args.synthetic:
         log.info("[Train] Using synthetic dataset...")
         df = generate_synthetic_data(n_samples=100000)
     else:
         df = load_cicids2017(args.data)
         if df is None:
-            log.warning("[Train] No CICIDS2017 data found. Falling back to synthetic.")
+            log.warning(
+                "[Train] No CICIDS2017 data found. Falling back to synthetic.")
             df = generate_synthetic_data(n_samples=100000)
 
-    # ── Preprocess ────────────────────────────────────────────────────────────
+    # ── Preprocess ───
     X_train, X_test, y_train, y_test, scaler, feature_names = preprocess(df)
 
-    # ── Train IsolationForest ─────────────────────────────────────────────────
+    # ── Train IsolationForest ────
     iso_model = train_isolation_forest(X_train, args.contamination)
     save_model(iso_model, config.MODEL_PATH, "IsolationForest")
 
-    # ── Train RandomForest ────────────────────────────────────────────────────
+    # ── Train RandomForest ────
     rf_model = None
     try:
         rf_model = train_random_forest(X_train, y_train)
@@ -167,13 +171,14 @@ def main():
     except Exception as e:
         log.error(f"[Train] RandomForest training failed: {e}")
 
-    # ── Save scaler + feature list ────────────────────────────────────────────
+    # ── Save scaler + feature list ──────
     save_model(scaler, config.SCALER_PATH, "StandardScaler")
     save_model(feature_names, config.FEATURES_PATH, "FeatureNames")
 
-    log.info(f"[Train] Feature names saved: {feature_names[:5]}... ({len(feature_names)} total)")
+    log.info(
+        f"[Train] Feature names saved: {feature_names[:5]}... ({len(feature_names)} total)")
 
-    # ── Evaluate ──────────────────────────────────────────────────────────────
+    # ── Evaluate ────
     if args.evaluate or True:  # Always evaluate
         evaluate(iso_model, rf_model, X_test, y_test, feature_names)
 
@@ -183,4 +188,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

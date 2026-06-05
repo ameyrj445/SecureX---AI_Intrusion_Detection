@@ -291,6 +291,5 @@ def api_replay_status():
         return jsonify({"status": "idle"})
     return jsonify(eng.get_stats())
 
-
 if __name__ == "__main__":
     start_dashboard()
