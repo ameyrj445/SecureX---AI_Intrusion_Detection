@@ -41,9 +41,8 @@ def make_alert(
         "confidence": round(confidence, 3),
         "rule_score": round(rule_score, 2),  # 0-100 contribution from rules
         "details": details,
-        "source": "rule",
+        "source": "rule",    
     }
-
 
 # ─── Individual Rules ───
 
