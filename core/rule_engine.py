@@ -41,10 +41,11 @@ def make_alert(
         "confidence": round(confidence, 3),
         "rule_score": round(rule_score, 2),  # 0-100 contribution from rules
         "details": details,
-        "source": "rule",    
+        "source": "rule",
     }
 
 # ─── Individual Rules ───
+
 
 def _check_ddos(f: dict) -> dict | None:
     rate = f.get("request_rate_per_min", 0)
