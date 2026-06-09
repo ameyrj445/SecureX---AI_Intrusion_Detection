@@ -66,7 +66,7 @@ def get_severity(score: float) -> str:
         return "MEDIUM"
     else:
         return "LOW"
-
+                                                                       
 
 def enrich_with_threat_score(alert: dict) -> dict:
     """

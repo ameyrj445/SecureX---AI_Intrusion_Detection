@@ -69,7 +69,7 @@ def _check_ddos(f: dict) -> dict | None:
         )
     return None
 
-
+                                                            
 def _check_port_scan(f: dict) -> dict | None:
     unique_ports = f.get("unique_dst_ports", 0)
     if unique_ports >= config.PORTSCAN_UNIQUE_PORTS:
