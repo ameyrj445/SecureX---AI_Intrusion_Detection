@@ -810,7 +810,7 @@ async function fetchInitialData() {
   }
 }
 
-// ─── Init ─────────────────────────────────────────────────────────────────────
+// ─── Init ───
 document.addEventListener('DOMContentLoaded', () => {
   initCharts();
   createParticles();
@@ -829,7 +829,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(pollReplayStatus, 3000);
 });
 
-// ─── Tab Navigation (patched to include replay) ───────────────────────────────
+// ─── Tab Navigation (patched to include replay) ────
 function switchTab(tabName, el) {
   document.querySelectorAll('.tab-section').forEach(s => s.classList.add('hidden'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -855,7 +855,7 @@ function switchTab(tabName, el) {
   return false;
 }
 
-// ════════════════════════ DATASET REPLAY ════════════════════════
+// ════ DATASET REPLAY ═══
 
 // SocketIO events for replay
 socket.on('replay_status', (data) => { applyReplayStats(data); });

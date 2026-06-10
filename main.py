@@ -27,10 +27,10 @@ import threading
 import time
 from datetime import datetime
 
-# ─── Config ───────────────────────────────────────────────────────────────────
+# ─── Config ────
 import config
 
-# ─── Core Modules ─────────────────────────────────────────────────────────────
+# ─── Core Modules ────
 from core.logger import get_logger, log_alert, log_traffic_snapshot, init_db
 from core.packet_capture import PacketCapture, packet_queue, get_stats as get_capture_stats
 from core.feature_engineering import FeatureAggregator, feature_queue
