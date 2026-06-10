@@ -172,7 +172,7 @@ def feature_mirror_loop():
             continue
 
 
-# ─── Stats Reporter ───────────────────────────────────────────────────────────
+# ─── Stats Reporter ───
 
 def stats_reporter_loop(aggregator: FeatureAggregator):
     """Periodic stats snapshot + dashboard push every 5 seconds."""
@@ -206,7 +206,7 @@ def stats_reporter_loop(aggregator: FeatureAggregator):
             pass
 
 
-# ─── Main ─────────────────────────────────────────────────────────────────────
+# ─── Main ───
 
 # Global (set in main so feature_mirror can access)
 rule_engine_feature_queue: queue.Queue = queue.Queue(maxsize=5000)
@@ -235,34 +235,34 @@ def main():
     log.info("  Starting all modules...")
     log.info("=" * 60)
 
-    # ── 1. Feature Aggregator ─────────────────────────────────────────────────
+    # ── 1. Feature Aggregator ──
     aggregator = FeatureAggregator(input_queue=packet_queue)
     aggregator.start()
 
-    # ── 2. Rule Engine ────────────────────────────────────────────────────────
+    # ── 2. Rule Engine ──
     rule_engine = RuleEngine(
         feature_q=rule_engine_feature_queue,
         alert_q=alert_queue,
     )
     rule_engine.start()
 
-    # ── 3. ML Engine ─────────────────────────────────────────────────────────
+    # ── 3. ML Engine ───
     ml_engine = MLEngine(alert_q=alert_queue)
     ml_engine.start(ml_feature_queue)
 
-    # ── 4. Alert Consumer ─────────────────────────────────────────────────────
+    # ── 4. Alert Consumer ──
     alert_thread = threading.Thread(
         target=alert_consumer_loop, daemon=True, name="AlertConsumer"
     )
     alert_thread.start()
 
-    # ── 5. Feature Mirror ─────────────────────────────────────────────────────
+    # ── 5. Feature Mirror ──
     mirror_thread = threading.Thread(
         target=feature_mirror_loop, daemon=True, name="FeatureMirror"
     )
     mirror_thread.start()
 
-    # ── 6. Stats Reporter ─────────────────────────────────────────────────────
+    # ── 6. Stats Reporter ──
     stats_thread = threading.Thread(
         target=stats_reporter_loop, args=[aggregator],
         daemon=True, name="StatsReporter"
