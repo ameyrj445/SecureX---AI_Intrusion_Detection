@@ -38,7 +38,7 @@ def main():
         classification_report, accuracy_score,
         precision_score, recall_score, f1_score
     )
-
+                                            
     # Isolation Forest
     if_preds = iso.predict(X_test)
     if_binary = np.where(if_preds == -1, 1, 0)
@@ -61,6 +61,6 @@ def main():
 
     print("="*60 + "\n")
 
-
 if __name__ == "__main__":
     main()
+                    

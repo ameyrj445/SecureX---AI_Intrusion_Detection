@@ -269,7 +269,7 @@ def main():
     )
     stats_thread.start()
 
-    # ── 7. Packet Capture ─────────────────────────────────────────────────────
+    # ── 7. Packet Capture ──
     capture = PacketCapture(iface=config.CAPTURE_INTERFACE)
     if args.demo:
         capture._start_synthetic()
@@ -279,7 +279,7 @@ def main():
     log.info(f"[Main] Dashboard → http://localhost:{config.DASHBOARD_PORT}")
     log.info("[Main] Press Ctrl+C to stop")
 
-    # ── 8. Flask Dashboard (blocking) ─────────────────────────────────────────
+    # ── 8. Flask Dashboard (blocking) ───
     try:
         start_dashboard(host=config.DASHBOARD_HOST, port=config.DASHBOARD_PORT)
     except KeyboardInterrupt:
@@ -287,8 +287,7 @@ def main():
         capture.stop()
         aggregator.stop()
         rule_engine.stop()
-        ml_engine.stop()
-
+        ml_engine.stop()                                       
 
 if __name__ == "__main__":
     main()
