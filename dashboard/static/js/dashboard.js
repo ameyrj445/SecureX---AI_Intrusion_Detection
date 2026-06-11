@@ -708,7 +708,7 @@ function updateThreatMap() {
   `).join('');
 }
 
-// ─── Tab Navigation ───────────────────────────────────────────────────────────
+// ─── Tab Navigation ───
 function switchTab(tabName, el) {
   document.querySelectorAll('.tab-section').forEach(s => s.classList.add('hidden'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -735,7 +735,7 @@ function switchTab(tabName, el) {
   return false;
 }
 
-// ─── Utilities ────────────────────────────────────────────────────────────────
+// ─── Utilities ────
 function esc(str) {
   if (!str) return '';
   return String(str)
@@ -766,14 +766,14 @@ function animateNumber(id, target) {
   }, 30);
 }
 
-// ─── Live Clock ───────────────────────────────────────────────────────────────
+// ─── Live Clock ───
 function updateClock() {
   document.getElementById('clock').textContent = new Date().toLocaleTimeString();
 }
 setInterval(updateClock, 1000);
 updateClock();
 
-// ─── Particle Animation ───────────────────────────────────────────────────────
+// ─── Particle Animation ───
 function createParticles() {
   const container = document.getElementById('particles');
   for (let i = 0; i < 20; i++) {
@@ -787,7 +787,7 @@ function createParticles() {
   }
 }
 
-// ─── Periodic Data Refresh ────────────────────────────────────────────────────
+// ─── Periodic Data Refresh ───
 async function fetchInitialData() {
   try {
     const [alertsRes, statsRes] = await Promise.all([
@@ -818,7 +818,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Live traffic injection every 5s (supplement Socket.IO)
   setInterval(injectLiveTrafficPoint, 5000);
-
+                                                                                 
   // Refresh threat map every 15s if on that tab
   setInterval(() => {
     const mapTab = document.getElementById('tab-map');
