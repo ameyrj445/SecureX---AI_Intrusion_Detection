@@ -468,8 +468,8 @@ function renderMiniAlerts() {
     </div>
   `).join('');
 }
-
-// ─── Blocked IPs ──────────────────────────────────────────────────────────────
+                                                                              
+// ─── Blocked IPs ────
 function pushPopupFeed(entry) {
   state.popupFeed.unshift(entry);
   if (state.popupFeed.length > 20) state.popupFeed.pop();
@@ -573,7 +573,7 @@ async function blockIp(ip) {
   }
 }
 
-// ─── Alert Detail Modal ───────────────────────────────────────────────────────
+// ─── Alert Detail Modal ────
 function showAlertDetail(idx) {
   const a = state.alerts[idx];
   if (!a) return;
@@ -606,7 +606,7 @@ document.getElementById('alert-modal').addEventListener('click', (e) => {
   if (e.target === e.currentTarget) closeModal();
 });
 
-// ─── Toast Notifications ──────────────────────────────────────────────────────
+// ─── Toast Notifications ───
 function showToast(alert, type = 'alert') {
   const container = document.getElementById('toast-container');
   const severity = alert.severity || 'HIGH';
@@ -643,7 +643,7 @@ function showToast(alert, type = 'alert') {
   }, 5000);
 }
 
-// ─── Threat Map ───────────────────────────────────────────────────────────────
+// ─── Threat Map ───
 const GEO_POS = {
   US: [215, 140], CN: [690, 140], RU: [600, 90], DE: [475, 100],
   GB: [445, 100], IN: [620, 180], BR: [240, 290], KP: [730, 130],
