@@ -450,8 +450,8 @@ function filterAlerts() {
     `;
   }).join('');
 }
-
-// ─── Mini Alert List ──────────────────────────────────────────────────────────
+                                                                     
+// ─── Mini Alert List ───
 function renderMiniAlerts() {
   const container = document.getElementById('mini-alert-list');
   const recent = state.alerts.slice(0, 8);
