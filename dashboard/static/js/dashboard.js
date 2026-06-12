@@ -416,12 +416,12 @@ function filterAlerts() {
   if (sevFilter) {
     filtered = filtered.filter(a => a.severity === sevFilter);
   }
-
+              
   const tbody = document.getElementById('alerts-tbody');
   if (!filtered.length) {
     tbody.innerHTML = '<tr><td colspan="9" class="empty-cell">No alerts matching your filter</td></tr>';
     return;
-  }
+  }         
 
   tbody.innerHTML = filtered.slice(0, 100).map(a => {
     const score = Math.round(a.threat_score || 0);
