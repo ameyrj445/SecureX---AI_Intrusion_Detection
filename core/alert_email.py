@@ -87,7 +87,7 @@ def _build_html(alert: dict) -> str:
     </body></html>
     """
 
-
+                                                             
 def send_alert_email(alert: dict):
     """Send an HTML email alert (blocking). Call from thread for async."""
     if not config.EMAIL_ENABLED:
@@ -103,7 +103,7 @@ def send_alert_email(alert: dict):
         msg["Subject"] = (
             f"[IDS ALERT] {alert.get('severity','HIGH')} — "
             f"{alert.get('attack_type','Intrusion')} from {ip}"
-        )
+        )                               
         msg["From"] = config.SMTP_USER
         msg["To"] = ", ".join(config.ALERT_RECIPIENTS)
 
@@ -129,3 +129,4 @@ def send_alert_email_async(alert: dict):
     """Send email in a background thread (non-blocking)."""
     t = threading.Thread(target=send_alert_email, args=[alert], daemon=True)
     t.start()
+                            
