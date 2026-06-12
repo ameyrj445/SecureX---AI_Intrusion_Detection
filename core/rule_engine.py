@@ -115,7 +115,6 @@ def _check_brute_force(f: dict) -> dict | None:
         )
     return None
 
-
 def _check_icmp_flood(f: dict) -> dict | None:
     icmp_ratio = f.get("icmp_ratio", 0)
     rate = f.get("request_rate_per_min", 0)

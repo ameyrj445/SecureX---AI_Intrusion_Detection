@@ -10,7 +10,7 @@ Features:
   - Auto-unblock via configurable TTL timer
   - Persistent blocklist tracking in the logger DB
   - Thread-safe operations
-"""
+"""                                            
 from core.logger import get_logger, log_blocked_ip, unlog_blocked_ip
 import config
 import sys
@@ -20,7 +20,7 @@ import subprocess
 import threading
 import time
 from datetime import datetime, timedelta
-
+                   
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 log = get_logger("Firewall")
@@ -30,10 +30,9 @@ _OS = platform.system()   # "Linux" | "Windows" | "Darwin"
 # In-memory blocklist: ip -> {blocked_at, unblock_at, timer}
 _blocklist: dict = {}
 _blocklist_lock = threading.Lock()
-
+                             
 # Metrics
 _metrics = {"total_blocked": 0, "total_unblocked": 0}
-
 
 # ─── OS-level commands ───
 
