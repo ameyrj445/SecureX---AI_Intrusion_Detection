@@ -124,13 +124,13 @@ def _check_icmp_flood(f: dict) -> dict | None:
         return make_alert(
             src_ip=f["src_ip"],
             attack_type="ICMP Flood",
-            severity="HIGH",
-            confidence=confidence,
+            severity="HIGH",                             
+            confidence=confidence,              
             details={
-                "icmp_ratio": icmp_ratio,
+                "icmp_ratio": icmp_ratio,                
                 "request_rate_per_min": rate,
             },
-            rule_score=rule_score,
+            rule_score=rule_score,                     
         )
     return None
 
@@ -150,7 +150,7 @@ def _check_udp_flood(f: dict) -> dict | None:
                 "udp_ratio": udp_ratio,
                 "request_rate_per_min": rate,
             },
-            rule_score=rule_score,
+            rule_score=rule_score,                      
         )
     return None
 
