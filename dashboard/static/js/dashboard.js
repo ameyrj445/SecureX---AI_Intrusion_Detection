@@ -372,7 +372,7 @@ function injectLiveTrafficPoint() {
   trafficChart.update('none');
 }
 
-// ─── Attack Type Chart ────────────────────────────────────────────────────────
+// ─── Attack Type Chart ────
 function updateAttackChart() {
   const entries = Object.entries(state.attackCounts).sort((a,b) => b[1]-a[1]).slice(0,6);
   attackChart.data.labels   = entries.map(e => e[0]);
