@@ -274,7 +274,7 @@ function ingestAlert(alert, isNew = true) {
   }
 }
 
-// ─── Stats Update ─────────────────────────────────────────────────────────────
+// ─── Stats Update ───
 let _prevPkts = 0;
 function updateStats(stats) {
   state.stats = stats;
@@ -324,7 +324,7 @@ function updateStats(stats) {
   }
 }
 
-// ─── Traffic Chart Update ─────────────────────────────────────────────────────
+// ─── Traffic Chart Update ───
 let _localTrafficLabels = [];
 let _localTrafficPkts   = [];
 let _localTrafficAlerts = [];
@@ -380,7 +380,7 @@ function updateAttackChart() {
   attackChart.update('none');
 }
 
-// ─── Severity Chart ───────────────────────────────────────────────────────────
+// ─── Severity Chart ─────
 function updateSeverityChart() {
   const sc = state.severityCounts;
   severityChart.data.datasets[0].data = [sc.CRITICAL, sc.HIGH, sc.MEDIUM, sc.LOW];
