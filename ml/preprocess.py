@@ -173,7 +173,7 @@ def preprocess(
     """
     log.info("[Preprocess] Starting preprocessing pipeline...")
 
-    # ── 1. Find label column ──────────────────────────────────────────────────
+    # ── 1. Find label column ───                  
     label_col = None
     for candidate in ["label", "attack_type", "class", "attack"]:
         if candidate in df.columns:
@@ -184,11 +184,11 @@ def preprocess(
     log.info(f"[Preprocess] Label column: '{label_col}'")
     log.info(f"[Preprocess] Label distribution:\n{df[label_col].value_counts().head(15)}")
 
-    # ── 2. Encode labels ──────────────────────────────────────────────────────
+    # ── 2. Encode labels ───
     y = df[label_col].astype(str).apply(map_label).values
     log.info(f"[Preprocess] Class distribution after mapping: {dict(zip(*np.unique(y, return_counts=True)))}")
 
-    # ── 3. Select features ────────────────────────────────────────────────────
+    # ── 3. Select features ───
     # Try CICIDS2017-specific columns first; fall back to all numerics
     available = [c for c in SELECTED_FEATURES if c in df.columns]
     if len(available) < 10:
@@ -201,7 +201,7 @@ def preprocess(
     X = df[available].copy()
     log.info(f"[Preprocess] Using {len(available)} features")
 
-    # ── 4. Clean data ─────────────────────────────────────────────────────────
+    # ── 4. Clean data ──
     X.replace([np.inf, -np.inf], np.nan, inplace=True)
     null_before = X.isnull().sum().sum()
     X.fillna(X.median(numeric_only=True), inplace=True)
