@@ -5,7 +5,7 @@
 
 'use strict';
 
-// ─── State ────────────────────────────────────────────────────────────────────
+// ─── State ───
 const state = {
   alerts: [],
   blocked: [],
@@ -20,7 +20,7 @@ const state = {
   alertsCount: 0,
 };
 
-// ─── Chart.js Global Defaults ────────────────────────────────────────────────
+// ─── Chart.js Global Defaults ───
 Chart.defaults.color = '#7a93b3';
 Chart.defaults.borderColor = '#1e2d40';
 Chart.defaults.font.family = "'Inter', sans-serif";
@@ -35,7 +35,7 @@ const CHART_COLORS = {
   yellow: '#fbbf24',
 };
 
-// ─── Charts ───────────────────────────────────────────────────────────────────
+// ─── Charts ───
 let trafficChart, protocolChart, attackChart, pktRateChart, severityChart, topIpChart;
 
 function initCharts() {
@@ -199,7 +199,7 @@ function initCharts() {
   });
 }
 
-// ─── Socket.IO ────────────────────────────────────────────────────────────────
+// ─── Socket.IO ───
 const socket = io({ transports: ['websocket', 'polling'] });
 
 socket.on('connect', () => {
@@ -232,7 +232,7 @@ socket.on('stats_update', (stats) => {
   updateStats(stats);
 });
 
-// ─── Connection Status ────────────────────────────────────────────────────────
+// ─── Connection Status ────
 function setConnectionStatus(connected) {
   const dot = document.getElementById('connection-dot');
   const label = document.getElementById('connection-label');
@@ -245,7 +245,7 @@ function setConnectionStatus(connected) {
   }
 }
 
-// ─── Alert Ingestion ──────────────────────────────────────────────────────────
+// ─── Alert Ingestion ────
 function ingestAlert(alert, isNew = true) {
   state.alerts.unshift(alert);
   if (state.alerts.length > 500) state.alerts.pop();
