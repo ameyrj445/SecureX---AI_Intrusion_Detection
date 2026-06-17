@@ -4,7 +4,7 @@
  */
 
 'use strict';
-
+                         
 // ─── State ───
 const state = {
   alerts: [],
@@ -34,7 +34,7 @@ const CHART_COLORS = {
   green:  '#22d3ee',
   yellow: '#fbbf24',
 };
-
+                            
 // ─── Charts ───
 let trafficChart, protocolChart, attackChart, pktRateChart, severityChart, topIpChart;
 
@@ -79,7 +79,7 @@ function initCharts() {
       },
     },
   });
-
+                         
   // Protocol Distribution (doughnut)
   const protoCtx = document.getElementById('protocolChart').getContext('2d');
   protocolChart = new Chart(protoCtx, {
