@@ -31,12 +31,12 @@ from core.logger import get_logger
 log = get_logger("Preprocess")
 
 
-# ─── Column name normalization ────────────────────────────────────────────────
+# ─── Column name normalization ───
 def _normalize_col(col: str) -> str:
     return col.strip().lower().replace(" ", "_").replace("/", "_").replace("-", "_")
 
 
-# ─── Label binarizer ─────────────────────────────────────────────────────────
+# ─── Label binarizer ────
 ATTACK_LABEL_MAP = {
     "benign": 0,
     "normal": 0,
@@ -71,7 +71,7 @@ def map_label(label) -> int:
     return ATTACK_LABEL_MAP.get(clean, 1)  # default unknown = 1 (attack)
 
 
-# ─── Feature columns used for training ───────────────────────────────────────
+# ─── Feature columns used for training ───
 SELECTED_FEATURES = [
     "total_fwd_packets",
     "total_backward_packets",
@@ -173,7 +173,7 @@ def preprocess(
     """
     log.info("[Preprocess] Starting preprocessing pipeline...")
 
-    # ── 1. Find label column ───                  
+    # ── 1. Find label column ───                                               
     label_col = None
     for candidate in ["label", "attack_type", "class", "attack"]:
         if candidate in df.columns:
@@ -207,17 +207,17 @@ def preprocess(
     X.fillna(X.median(numeric_only=True), inplace=True)
     log.info(f"[Preprocess] Filled {null_before:,} null/inf values")
 
-    # ── 5. Remove zero-variance columns ──────────────────────────────────────
+    # ── 5. Remove zero-variance columns ───
     selector = VarianceThreshold(threshold=0.0)
     X_sel = selector.fit_transform(X)
     feature_names = np.array(available)[selector.get_support()].tolist()
     log.info(f"[Preprocess] After variance threshold: {len(feature_names)} features")
 
-    # ── 6. Scale ──────────────────────────────────────────────────────────────
+    # ── 6. Scale ──
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X_sel)
 
-    # ── 7. Train/test split ───────────────────────────────────────────────────
+    # ── 7. Train/test split ───
     X_train, X_test, y_train, y_test = train_test_split(
         X_scaled, y,
         test_size=test_size,
