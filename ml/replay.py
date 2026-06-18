@@ -278,7 +278,7 @@ class DatasetReplayEngine:
             if self.iso_model:
                 iso_s    = float(self.iso_model.score_samples(vec_scaled)[0])
                 ml_score = float(max(0, min(100, (-iso_s + 0.5) * 100)))
-
+                                                
             # Skip genuine benign predictions
             if rf_pred_int == 0 and label_int == 0:
                 with self._lock:
@@ -311,7 +311,7 @@ class DatasetReplayEngine:
                     "ml_score":     round(ml_score, 2),
                 },
             }
-                                           
+                                                                                       
         except Exception as e:
             log.error(f"[Replay] Score error: {e}")
             return None

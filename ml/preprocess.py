@@ -267,3 +267,4 @@ def generate_synthetic_data(n_samples: int = 50000):
     log.info(f"[Preprocess] Synthetic data created: {dict(zip(*np.unique(labels, return_counts=True)))}")
     return df
 
+                                             
