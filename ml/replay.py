@@ -69,7 +69,6 @@ def _map_label(label) -> int:
         return int(clean)
     return ATTACK_LABEL_MAP.get(clean, 1)
 
-
 class DatasetReplayEngine:
     """
     Reads CICIDS2017 CSV rows, runs them through the trained ML models,
