@@ -133,7 +133,6 @@ def process_alert(alert: dict):
         f"score={ts:.1f} | sev={severity} | blocked={blocked}"
     )
 
-
 def alert_consumer_loop():
     """Drains the alert queue and processes each alert."""
     while True:
