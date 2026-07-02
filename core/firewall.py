@@ -90,7 +90,6 @@ def _unblock_windows(ip: str) -> bool:
     ])
     return ok
 
-
 def _block_os(ip: str) -> bool:
     if _OS == "Linux":
         return _block_linux(ip)
