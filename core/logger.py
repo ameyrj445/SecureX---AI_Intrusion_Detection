@@ -223,3 +223,4 @@ def log_traffic_snapshot(total_packets: int, alerts_count: int,
 
 # Initialise DB on import
 init_db()
+
