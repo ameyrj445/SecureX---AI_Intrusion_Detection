@@ -55,7 +55,6 @@ def compute_threat_score(alert: dict) -> float:
 
     return round(min(max(composite, 0.0), 100.0), 2)
 
-             
 def get_severity(score: float) -> str:
     """Map a 0-100 threat score to a severity label."""
     if score >= config.THREAT_LEVEL_HIGH:
