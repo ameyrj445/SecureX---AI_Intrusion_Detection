@@ -154,9 +154,7 @@ def _check_udp_flood(f: dict) -> dict | None:
         )
     return None
 
-
 # ─── Rule Engine ────
-
 RULES = [
     _check_ddos,
     _check_port_scan,
