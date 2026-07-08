@@ -33,7 +33,7 @@ def compute_threat_score(alert: dict) -> float:
     rule_score = float(alert.get("rule_score", 0))
     ml_score = float(alert.get("ml_score", 0))
     confidence = float(alert.get("confidence", 0.5))
-
+                           
     # Geo risk
     geo = alert.get("geo", {})
     country_code = geo.get("country_code", "??")

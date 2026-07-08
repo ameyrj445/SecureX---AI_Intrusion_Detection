@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 log = get_logger("RuleEngine")
 
 
-# ─── Alert Schema ──────
+# ─── Alert Schema ───
 
 def make_alert(
     src_ip: str,
@@ -154,7 +154,7 @@ def _check_udp_flood(f: dict) -> dict | None:
         )
     return None
 
-# ─── Rule Engine ────
+# ─── Rule Engine ───
 RULES = [
     _check_ddos,
     _check_port_scan,
