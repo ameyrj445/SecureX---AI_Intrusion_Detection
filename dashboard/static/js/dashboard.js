@@ -78,8 +78,7 @@ function initCharts() {
         y: { grid: { color: '#1e2d40' }, ticks: { font: { size: 10 } }, beginAtZero: true },
       },
     },
-  });
-                                      
+  });                            
   
   // Protocol Distribution (doughnut)
   const protoCtx = document.getElementById('protocolChart').getContext('2d');

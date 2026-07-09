@@ -32,12 +32,12 @@ def compute_threat_score(alert: dict) -> float:
     """
     rule_score = float(alert.get("rule_score", 0))
     ml_score = float(alert.get("ml_score", 0))
-    confidence = float(alert.get("confidence", 0.5))
-                           
+    confidence = float(alert.get("confidence", 0.5))        
+                                                        
     # Geo risk
     geo = alert.get("geo", {})
     country_code = geo.get("country_code", "??")
-    geo_risk = geo_ip.get_country_risk_score(country_code) * 100  # 0-100
+    geo_risk = geo_ip.get_country_risk_score(country_code) * 100  # 0-100                 
 
     # If only rule fired (no ML score), use rule confidence to estimate ML contribution
     if ml_score == 0 and rule_score > 0:
