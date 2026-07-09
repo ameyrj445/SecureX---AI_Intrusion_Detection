@@ -229,7 +229,6 @@ def preprocess(
     )             
     return X_train, X_test, y_train, y_test, scaler, feature_names
 
-
 def generate_synthetic_data(n_samples: int = 50000):
     """
     Generate synthetic data shaped like CICIDS2017 for testing when no dataset available.
