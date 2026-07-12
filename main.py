@@ -123,7 +123,7 @@ def process_alert(alert: dict):
         push_alert(alert)
     except Exception as e:
         log.debug(f"[Main] Dashboard push failed: {e}")
-
+                   
     # 6. Email alert
     if severity in ("HIGH", "CRITICAL"):
         send_alert_email_async(alert)
@@ -132,7 +132,7 @@ def process_alert(alert: dict):
         f"[Alert] {alert.get('attack_type')} | IP={src_ip} | "
         f"score={ts:.1f} | sev={severity} | blocked={blocked}"
     )
-
+                                                                   
 def alert_consumer_loop():
     """Drains the alert queue and processes each alert."""
     while True:
