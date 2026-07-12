@@ -223,7 +223,7 @@ def preprocess(
         random_state=random_state,
         stratify=y
     )
-    log.info(
+    log.info(                    
         f"[Preprocess] Train: {X_train.shape}, Test: {X_test.shape} | "
         f"Classes: {np.unique(y_train)}"
     )             
