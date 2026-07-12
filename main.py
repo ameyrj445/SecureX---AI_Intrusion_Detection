@@ -126,9 +126,9 @@ def process_alert(alert: dict):
                    
     # 6. Email alert
     if severity in ("HIGH", "CRITICAL"):
-        send_alert_email_async(alert)
+        send_alert_email_async(alert) 
 
-    log.info(
+    log.info(                                   
         f"[Alert] {alert.get('attack_type')} | IP={src_ip} | "
         f"score={ts:.1f} | sev={severity} | blocked={blocked}"
     )
