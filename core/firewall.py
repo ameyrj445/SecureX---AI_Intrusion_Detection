@@ -99,7 +99,7 @@ def _block_os(ip: str) -> bool:
         log.info(
             f"[Firewall] Simulating block for {ip} (unsupported OS: {_OS})")
         return True
-
+                                          
 
 def _unblock_os(ip: str) -> bool:
     if _OS == "Linux":
