@@ -129,4 +129,3 @@ def enrich_alert(alert: dict) -> dict:
         "isp": geo.get("isp", "Unknown"),
     }
     return alert
-                                                 
