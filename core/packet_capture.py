@@ -221,7 +221,6 @@ class PacketCapture:
                 pass
         log.info("[PacketCapture] Stopped")
 
-
 def get_stats() -> dict:
     """Return current capture stats (thread-safe copy)."""
     with _stats_lock:
