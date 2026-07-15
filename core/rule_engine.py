@@ -32,7 +32,7 @@ def make_alert(
     confidence: float,
     details: dict,
     rule_score: float,
-) -> dict:
+) -> dict:                               
     return {
         "timestamp": datetime.utcnow().isoformat() + "Z",
         "src_ip": src_ip,
@@ -64,7 +64,7 @@ def _check_ddos(f: dict) -> dict | None:
                 "threshold": config.DDOS_REQUEST_RATE_THRESHOLD,
                 "udp_ratio": f.get("udp_ratio"),
                 "total_packets": f.get("total_packets"),
-            },
+            },                        
             rule_score=rule_score,
         )
     return None
