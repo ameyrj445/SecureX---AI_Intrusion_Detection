@@ -37,7 +37,7 @@ def compute_threat_score(alert: dict) -> float:
     # Geo risk
     geo = alert.get("geo", {})
     country_code = geo.get("country_code", "??")
-    geo_risk = geo_ip.get_country_risk_score(country_code) * 100  # 0-100                 
+    geo_risk = geo_ip.get_country_risk_score(country_code) * 100  # 0-100                                                           
 
     # If only rule fired (no ML score), use rule confidence to estimate ML contribution
     if ml_score == 0 and rule_score > 0:
@@ -49,14 +49,14 @@ def compute_threat_score(alert: dict) -> float:
         + config.ML_WEIGHT * ml_score
         + config.GEO_WEIGHT * geo_risk
     )
-
+                                                                          
     # Boost by confidence
     composite = composite * (0.5 + 0.5 * confidence)
 
     return round(min(max(composite, 0.0), 100.0), 2)
 
 def get_severity(score: float) -> str:
-    """Map a 0-100 threat score to a severity label."""
+    """Map a 0-100 threat score to a severity label."""                                  
     if score >= config.THREAT_LEVEL_HIGH:
         return "CRITICAL"
     elif score >= config.THREAT_LEVEL_MEDIUM:
