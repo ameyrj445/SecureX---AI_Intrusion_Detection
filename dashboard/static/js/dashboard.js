@@ -79,7 +79,7 @@ function initCharts() {
       },
     },
   });                            
-                                       
+                                                       
   // Protocol Distribution (doughnut)
   const protoCtx = document.getElementById('protocolChart').getContext('2d');
   protocolChart = new Chart(protoCtx, {
