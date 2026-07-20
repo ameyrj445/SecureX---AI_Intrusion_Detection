@@ -76,4 +76,4 @@ def enrich_with_threat_score(alert: dict) -> dict:
     alert["threat_score"] = score
     alert["severity"] = get_severity(score)
     return alert
-                                     
+
