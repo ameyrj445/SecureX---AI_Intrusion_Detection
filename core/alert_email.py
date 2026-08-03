@@ -105,9 +105,9 @@ def send_alert_email(alert: dict):
             f"{alert.get('attack_type','Intrusion')} from {ip}"
         )                               
         msg["From"] = config.SMTP_USER
-        msg["To"] = ", ".join(config.ALERT_RECIPIENTS)
+        msg["To"] = ", ".join(config.ALERT_RECIPIENTS)                                             
 
-        html_part = MIMEText(_build_html(alert), "html")
+        html_part = MIMEText(_build_html(alert), "html")                
         msg.attach(html_part)
 
         with smtplib.SMTP(config.SMTP_HOST, config.SMTP_PORT) as server:

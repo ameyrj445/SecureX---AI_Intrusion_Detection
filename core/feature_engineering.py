@@ -149,7 +149,7 @@ class FeatureAggregator:
                 src_ip = record.get("src_ip")
                 if src_ip:
                     with self._windows_lock:
-                        self._windows[src_ip].add(record)
+                        self._windows[src_ip].add(record)              
             except queue.Empty:
                 continue
             except Exception as e:
