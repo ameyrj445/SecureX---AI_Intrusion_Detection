@@ -144,7 +144,7 @@ class FeatureAggregator:
 
     def _ingest_loop(self):
         while self._running:
-            try:
+            try:                     
                 record = self.input_queue.get(timeout=1.0)
                 src_ip = record.get("src_ip")
                 if src_ip:
