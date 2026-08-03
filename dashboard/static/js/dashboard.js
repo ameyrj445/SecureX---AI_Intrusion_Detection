@@ -220,12 +220,12 @@ socket.on('init_data', (data) => {
 
 socket.on('new_alert', (alert) => {
   ingestAlert(alert, true);
-  showToast(alert);
-  renderAlertsTable();
-  renderMiniAlerts();
+  showToast(alert);                
+  renderAlertsTable();               
+  renderMiniAlerts();            
   updateAttackChart();
-  updateSeverityChart();
-  updateTopIpChart();
+  updateSeverityChart();                    
+  updateTopIpChart();      
 });
 
 socket.on('stats_update', (stats) => {

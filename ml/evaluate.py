@@ -53,11 +53,11 @@ def main():
     if rf:
         print("\n" + "="*60)
         print("  RANDOM FOREST — Multi-Class Report")
-        print("="*60)
+        print("="*60)                
         rf_preds = rf.predict(X_test)
-        print(classification_report(y_test, rf_preds, zero_division=0))
+        print(classification_report(y_test, rf_preds, zero_division=0))                             
 
     print("="*60 + "\n")
                                                               
 if __name__ == "__main__":
-    main()
+    main()                      
