@@ -82,13 +82,13 @@ SMTP_PASSWORD   = "your_app_password"
 ALERT_RECIPIENTS = ["admin@example.com"]
 EMAIL_THROTTLE_SECONDS = 300      # Don't send more than 1 email per IP per 5m
 
-# ─── Dashboard ───────────────────────────────────────────────────────────────
+# ─── Dashboard ───
 DASHBOARD_HOST = "0.0.0.0"
 DASHBOARD_PORT = 5000
 DASHBOARD_DEBUG = False
 SECRET_KEY = "ids-ips-secret-key-change-in-production"
 
-# ─── Logging ─────────────────────────────────────────────────────────────────
+# ─── Logging ───
 LOG_LEVEL          = "INFO"
 LOG_ROTATION_BYTES = 10 * 1024 * 1024   # 10 MB
-LOG_BACKUP_COUNT   = 5              
+LOG_BACKUP_COUNT   = 5 
