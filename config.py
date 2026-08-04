@@ -56,8 +56,8 @@ HIGH_RISK_COUNTRIES = {"CN", "RU", "KP", "IR", "NG", "UA", "RO"}
 THREAT_LEVEL_LOW    = 30
 THREAT_LEVEL_MEDIUM = 60
 THREAT_LEVEL_HIGH   = 80
-
-# ─── Auto-Blocking ───────────────────────────────────────────────────────────
+                                               
+# ─── Auto-Blocking ─────
 AUTO_BLOCK_ENABLED     = True
 BLOCK_THRESHOLD_SCORE  = 70       # Auto-block only when threat score exceeds 70
 BLOCK_TTL_SECONDS      = 3600     # Auto-unblock after 1 hour (0 = permanent)
@@ -69,7 +69,7 @@ WHITELIST_IPS          = {         # Never block these
     "172.20.32.1",      # Default gateway
 }
 
-# ─── Geolocation ─────────────────────────────────────────────────────────────
+# ─── Geolocation ─────
 GEO_API_URL   = "http://ip-api.com/json/{ip}?fields=status,country,countryCode,city,lat,lon,isp,query"
 GEO_CACHE_TTL = 3600              # Cache geo lookups for 1 hour
 
