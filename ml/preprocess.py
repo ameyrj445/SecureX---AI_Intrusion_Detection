@@ -229,35 +229,35 @@ def preprocess(
     )             
     return X_train, X_test, y_train, y_test, scaler, feature_names
 
-def generate_synthetic_data(n_samples: int = 50000):
+def generate_synthetic_data(n_samples: int = 50000): 
+    """  
+    Generate synthetic data shaped like CICIDS2017 for testing when no dataset available. 
+    80% benign, 20% various attacks. 
     """ 
-    Generate synthetic data shaped like CICIDS2017 for testing when no dataset available.
-    80% benign, 20% various attacks.
-    """
-    log.info(f"[Preprocess] Generating {n_samples:,} synthetic samples...")
-    np.random.seed(config.ML_RANDOM_STATE)
-
-    n_features = len(SELECTED_FEATURES)
-    X = np.random.randn(n_samples, n_features).astype(np.float32)
-
-    labels = np.zeros(n_samples, dtype=int)
-    # 20% attacks
-    attack_idx = np.random.choice(n_samples, size=int(n_samples * 0.20), replace=False)
-
-    attack_types = [1, 2, 3, 4, 5, 7]
-    for i, idx in enumerate(attack_idx):
-        atype = attack_types[i % len(attack_types)]
-        labels[idx] = atype
-        # Add distinguishing signal patterns
-        if atype == 1:   # DDoS: high packet rate
-            X[idx, 1:3] += 10
-        elif atype == 2: # Port scan: many unique ports
-            X[idx, 0] += 5
-        elif atype == 3: # Brute force: auth ports
-            X[idx, 5] += 7
-        elif atype == 7: # DoS: large flow duration spike
-            X[idx, 3] += 8
-
+    log.info(f"[Preprocess] Generating {n_samples:,} synthetic samples...") 
+    np.random.seed(config.ML_RANDOM_STATE) 
+ 
+    n_features = len(SELECTED_FEATURES) 
+    X = np.random.randn(n_samples, n_features).astype(np.float32) 
+ 
+    labels = np.zeros(n_samples, dtype=int) 
+    # 20% attacks 
+    attack_idx = np.random.choice(n_samples, size=int(n_samples * 0.20), replace=False) 
+ 
+    attack_types = [1, 2, 3, 4, 5, 7] 
+    for i, idx in enumerate(attack_idx): 
+        atype = attack_types[i % len(attack_types)] 
+        labels[idx] = atype 
+        # Add distinguishing signal patterns 
+        if atype == 1:   # DDoS: high packet rate 
+            X[idx, 1:3] += 10 
+        elif atype == 2: # Port scan: many unique ports 
+            X[idx, 0] += 5 
+        elif atype == 3: # Brute force: auth ports 
+            X[idx, 5] += 7 
+        elif atype == 7: # DoS: large flow duration spike 
+            X[idx, 3] += 8 
+ 
     # Create DataFrame
     df = pd.DataFrame(X, columns=SELECTED_FEATURES)
     df["label"] = labels
