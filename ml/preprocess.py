@@ -259,9 +259,9 @@ def generate_synthetic_data(n_samples: int = 50000):
             X[idx, 3] += 8 
  
     # Create DataFrame
-    df = pd.DataFrame(X, columns=SELECTED_FEATURES)
-    df["label"] = labels
-    log.info(f"[Preprocess] Synthetic data created: {dict(zip(*np.unique(labels, return_counts=True)))}")
-    return df
-
-                                             
+    df = pd.DataFrame(X, columns=SELECTED_FEATURES) 
+    df["label"] = labels 
+    log.info(f"[Preprocess] Synthetic data created: {dict(zip(*np.unique(labels, return_counts=True)))}") 
+    return df 
+ 
+                                              
