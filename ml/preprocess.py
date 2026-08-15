@@ -244,19 +244,19 @@ def generate_synthetic_data(n_samples: int = 50000):
     # 20% attacks 
     attack_idx = np.random.choice(n_samples, size=int(n_samples * 0.20), replace=False) 
  
-    attack_types = [1, 2, 3, 4, 5, 7] 
-    for i, idx in enumerate(attack_idx): 
-        atype = attack_types[i % len(attack_types)] 
-        labels[idx] = atype 
-        # Add distinguishing signal patterns 
-        if atype == 1:   # DDoS: high packet rate 
-            X[idx, 1:3] += 10 
-        elif atype == 2: # Port scan: many unique ports 
-            X[idx, 0] += 5 
-        elif atype == 3: # Brute force: auth ports 
-            X[idx, 5] += 7 
-        elif atype == 7: # DoS: large flow duration spike 
-            X[idx, 3] += 8 
+    attack_types = [1, 2, 3, 4, 5, 7]  
+    for i, idx in enumerate(attack_idx):  
+        atype = attack_types[i % len(attack_types)]  
+        labels[idx] = atype  
+        # Add distinguishing signal patterns  
+        if atype == 1:   # DDoS: high packet rate  
+            X[idx, 1:3] += 10   
+        elif atype == 2: # Port scan: many unique ports  
+            X[idx, 0] += 5  
+        elif atype == 3: # Brute force: auth ports  
+            X[idx, 5] += 7  
+        elif atype == 7: # DoS: large flow duration spike  
+            X[idx, 3] += 8  
  
     # Create DataFrame
     df = pd.DataFrame(X, columns=SELECTED_FEATURES) 
