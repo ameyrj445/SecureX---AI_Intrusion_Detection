@@ -50,14 +50,14 @@ def main():
     print(f"  Recall:    {recall_score(y_binary, if_binary, zero_division=0)*100:.2f}%")
     print(f"  F1-Score:  {f1_score(y_binary, if_binary, zero_division=0)*100:.2f}%")
 
-    if rf:
-        print("\n" + "="*60)
-        print("  RANDOM FOREST — Multi-Class Report")
-        print("="*60)                
-        rf_preds = rf.predict(X_test)
-        print(classification_report(y_test, rf_preds, zero_division=0))                                            
+    if rf: 
+        print("\n" + "="*60) 
+        print("  RANDOM FOREST — Multi-Class Report")  
+        print("="*60)                 
+        rf_preds = rf.predict(X_test) 
+        print(classification_report(y_test, rf_preds, zero_division=0))                                             
 
-    print("="*60 + "\n")
-                                                              
-if __name__ == "__main__":             
-    main()                      
+    print("="*60 + "\n") 
+                                                               
+if __name__ == "__main__":              
+    main()                       
