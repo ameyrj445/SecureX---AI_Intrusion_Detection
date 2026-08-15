@@ -161,36 +161,36 @@ def load_cicids2017(data_dir: str = None) -> pd.DataFrame | None:
     return combined
 
 
-def preprocess(
-    df: pd.DataFrame,
-    test_size: float = 0.2,
-    random_state: int = config.ML_RANDOM_STATE,
-):
+def preprocess(  
+    df: pd.DataFrame, 
+    test_size: float = 0.2,  
+    random_state: int = config.ML_RANDOM_STATE, 
+): 
     """
     Full preprocessing pipeline.
     Returns: (X_train, X_test, y_train, y_test, scaler, feature_names, le)
     """
-    log.info("[Preprocess] Starting preprocessing pipeline...")
+    log.info("[Preprocess] Starting preprocessing pipeline...") 
 
     # ── 1. Find label column ───                                               
-    label_col = None
-    for candidate in ["label", "attack_type", "class", "attack"]:
-        if candidate in df.columns:
-            label_col = candidate
-            break
-    if label_col is None:
-        raise ValueError("Could not find label column in dataset")
-    log.info(f"[Preprocess] Label column: '{label_col}'")
-    log.info(f"[Preprocess] Label distribution:\n{df[label_col].value_counts().head(15)}")
+    label_col = None 
+    for candidate in ["label", "attack_type", "class", "attack"]: 
+        if candidate in df.columns: 
+            label_col = candidate 
+            break  
+    if label_col is None: 
+        raise ValueError("Could not find label column in dataset") 
+    log.info(f"[Preprocess] Label column: '{label_col}'") 
+    log.info(f"[Preprocess] Label distribution:\n{df[label_col].value_counts().head(15)}") 
 
-    # ── 2. Encode labels ───
-    y = df[label_col].astype(str).apply(map_label).values
+    # ── 2. Encode labels ─── 
+    y = df[label_col].astype(str).apply(map_label).values 
     log.info(f"[Preprocess] Class distribution after mapping: {dict(zip(*np.unique(y, return_counts=True)))}")
-
+ 
     # ── 3. Select features ───
-    # Try CICIDS2017-specific columns first; fall back to all numerics
-    available = [c for c in SELECTED_FEATURES if c in df.columns]
-    if len(available) < 10:
+    # Try CICIDS2017-specific columns first; fall back to  all numerics 
+    available = [c for c in SELECTED_FEATURES if c in df.columns] 
+    if len(available) < 10: 
         log.warning("[Preprocess] Few CICIDS features found — using all numeric columns")
         available = [
             c for c in df.columns
