@@ -218,16 +218,16 @@ socket.on('init_data', (data) => {
   renderAlertsTable();
 });
 
-socket.on('new_alert', (alert) => {
-  ingestAlert(alert, true);
-  showToast(alert);                
-  renderAlertsTable();               
-  renderMiniAlerts();            
-  updateAttackChart();
-  updateSeverityChart();                    
-  updateTopIpChart();      
-});
-
+socket.on('new_alert', (alert) => { 
+  ingestAlert(alert, true); 
+  showToast(alert);                 
+  renderAlertsTable();                
+  renderMiniAlerts();             
+  updateAttackChart(); 
+  updateSeverityChart();                      
+  updateTopIpChart();       
+}); 
+ 
 socket.on('stats_update', (stats) => {
   updateStats(stats);
 });
