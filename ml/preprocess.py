@@ -189,16 +189,16 @@ def preprocess(
  
     # ── 3. Select features ───
     # Try CICIDS2017-specific columns first; fall back to  all numerics 
-    available = [c for c in SELECTED_FEATURES if c in df.columns] 
-    if len(available) < 10: 
-        log.warning("[Preprocess] Few CICIDS features found — using all numeric columns")
-        available = [
-            c for c in df.columns
-            if c != label_col and df[c].dtype in [np.float64, np.float32, np.int64, np.int32]
-        ]
-
-    X = df[available].copy()
-    log.info(f"[Preprocess] Using {len(available)} features")
+    available = [c for c in SELECTED_FEATURES if c in df.columns]  
+    if len(available) < 10:  
+        log.warning("[Preprocess] Few CICIDS features found — using all numeric columns") 
+        available = [ 
+            c for c in df.columns 
+            if c != label_col and df[c].dtype in [np.float64, np.float32, np.int64, np.int32] 
+        ] 
+ 
+    X = df[available].copy() 
+    log.info(f"[Preprocess] Using {len(available)} features") 
 
     # ── 4. Clean data ──
     X.replace([np.inf, -np.inf], np.nan, inplace=True)
