@@ -133,17 +133,17 @@ def process_alert(alert: dict):
         f"score={ts:.1f} | sev={severity} | blocked={blocked}"
     )
                                                                    
-def alert_consumer_loop():        
-    """Drains the alert queue and processes each alert."""       
-    while True: 
-        try: 
-            alert = alert_queue.get(timeout=2.0)     
-            process_alert(alert) 
-        except queue.Empty: 
-            continue 
-        except Exception as e: 
-            log.error(f"[Main] Alert consumer error: {e}") 
- 
+def alert_consumer_loop():         
+    """Drains the alert queue and processes each alert."""        
+    while True:  
+        try:  
+            alert = alert_queue.get(timeout=2.0)      
+            process_alert(alert)  
+        except queue.Empty:  
+            continue  
+        except Exception as e:  
+            log.error(f"[Main] Alert consumer error: {e}")  
+  
 # ─── Feature Mirror (for ML engine) ────
 
 def feature_mirror_loop():
