@@ -74,21 +74,21 @@ GEO_API_URL   = "http://ip-api.com/json/{ip}?fields=status,country,countryCode,c
 GEO_CACHE_TTL = 3600              # Cache geo lookups for 1 hour
 
 # ─── Email Alerts ────────────────────────────────────────────────────────────
-EMAIL_ENABLED   = False           # Set True and fill credentials to enable
-SMTP_HOST       = "smtp.gmail.com"
-SMTP_PORT       = 587
-SMTP_USER       = "your_email@gmail.com"
-SMTP_PASSWORD   = "your_app_password"
-ALERT_RECIPIENTS = ["admin@example.com"]
-EMAIL_THROTTLE_SECONDS = 300      # Don't send more than 1 email per IP per 5m
-
-# ─── Dashboard ───
-DASHBOARD_HOST = "0.0.0.0"  
-DASHBOARD_PORT = 5000  
-DASHBOARD_DEBUG = False  
-SECRET_KEY = "ids-ips-secret-key-change-in-production"  
-
-# ─── Logging ─── 
-LOG_LEVEL          = "INFO"  
-LOG_ROTATION_BYTES = 10 * 1024 * 1024   # 10 MB  
+EMAIL_ENABLED   = False           # Set True and fill credentials to enable 
+SMTP_HOST       = "smtp.gmail.com" 
+SMTP_PORT       = 587  
+SMTP_USER       = "your_email@gmail.com" 
+SMTP_PASSWORD   = "your_app_password" 
+ALERT_RECIPIENTS = ["admin@example.com"] 
+EMAIL_THROTTLE_SECONDS = 300      # Don't send more than 1 email per IP per 5m 
+ 
+# ─── Dashboard ─── 
+DASHBOARD_HOST = "0.0.0.0"   
+DASHBOARD_PORT = 5000   
+DASHBOARD_DEBUG = False   
+SECRET_KEY = "ids-ips-secret-key-change-in-production"   
+ 
+# ─── Logging ───  
+LOG_LEVEL          = "INFO"   
+LOG_ROTATION_BYTES = 10 * 1024 * 1024   # 10 MB    
 LOG_BACKUP_COUNT   = 5   
