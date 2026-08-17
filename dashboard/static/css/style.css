@@ -774,16 +774,17 @@ body {
   margin-top: 4px; font-weight: 500;                 
 }
 
-/* ── Live Dot ── */
-.replay-live-dot { 
-  width: 10px; height: 10px; border-radius: 50%; 
-  background: var(--red);  
-  display: inline-block; 
-  animation: replayPulse 1s infinite;                         
-  opacity: 0; 
-} 
-.replay-live-dot.active { opacity: 1; } 
-@keyframes replayPulse { 
-  0%,100% { box-shadow: 0 0 0 0 rgba(244,63,94,.5); } 
-  50%      { box-shadow: 0 0 0 6px rgba(244,63,94,0); } 
-}                                                                          
+/* ── Live Dot ── */ 
+.replay-live-dot {   
+  width: 10px; height: 10px; border-radius: 50%;  
+  background: var(--red);   
+  display: inline-block;  
+  animation: replayPulse 1s infinite;                          
+  opacity: 0;  
+}  
+.replay-live-dot.active { opacity: 1; }  
+@keyframes replayPulse {  
+  0%,100% { box-shadow: 0 0 0 0 rgba(244,63,94,.5); }  
+  50%      { box-shadow: 0 0 0 6px rgba(244,63,94,0); }  
+}                                                            
+                
